@@ -237,6 +237,118 @@
     .cms-posts-list-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);font-weight:700;margin-bottom:1rem}
     .sched-row{display:flex;justify-content:space-between;align-items:center;padding:.9rem 0;border-bottom:1px solid var(--gray-100)}
     .sched-row:last-child{border-bottom:none}
+
+    /* ═══════════════════════════════════════
+       RESPONSIVE / MOBILE
+    ═══════════════════════════════════════ */
+
+    /* Hamburger button */
+    .hamburger{display:none;flex-direction:column;justify-content:center;align-items:center;width:40px;height:40px;gap:5px;cursor:pointer;border:none;background:none;padding:4px;border-radius:8px;transition:background .2s}
+    .hamburger:hover{background:var(--gray-50)}
+    .hamburger span{display:block;width:22px;height:2.5px;background:var(--ink);border-radius:2px;transition:all .3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+    .hamburger.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+
+    /* Mobile nav drawer */
+    .nav-drawer{display:none;position:fixed;top:68px;left:0;right:0;background:var(--white);border-bottom:1px solid var(--gray-100);box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:99;padding:1rem 1.5rem 1.5rem;flex-direction:column;gap:.25rem;animation:slideDown .2s ease}
+    .nav-drawer.open{display:flex}
+    @keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    .nav-drawer .nav-link{padding:.75rem .5rem;font-size:1rem;border-bottom:1px solid var(--gray-100);color:var(--ink)}
+    .nav-drawer .nav-link:last-of-type{border-bottom:none}
+    .nav-drawer .nav-btn{width:100%;padding:.85rem;margin-top:.5rem;font-size:.95rem;text-align:center;border-radius:10px}
+
+    /* Mobile bottom nav for dashboards */
+    .mobile-bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--navy);border-top:1px solid rgba(37,171,225,.2);z-index:300;padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom))}
+    .mbn-items{display:flex;justify-content:space-around}
+    .mbn-item{display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.4rem .8rem;border-radius:8px;cursor:pointer;transition:all .2s;flex:1}
+    .mbn-item span:first-child{font-size:1.2rem}
+    .mbn-item span:last-child{font-size:.62rem;color:rgba(255,255,255,.4);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+    .mbn-item.active span:last-child{color:var(--blue-light)}
+    .mbn-item.active{background:rgba(37,171,225,.15)}
+
+    /* Mobile dashboard top bar */
+    .mobile-dash-header{display:none;position:sticky;top:0;z-index:150;background:var(--navy);padding:.9rem 1.2rem;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(37,171,225,.2);box-shadow:0 2px 12px rgba(0,0,0,.2)}
+    .mobile-dash-header img{height:32px;width:auto;object-fit:contain}
+    .mobile-dash-header .mh-role{font-size:.65rem;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-top:2px}
+    .mobile-dash-header .mh-logout{font-size:.8rem;color:rgba(255,255,255,.4);cursor:pointer;padding:.4rem .7rem;border-radius:6px;transition:all .2s}
+    .mobile-dash-header .mh-logout:hover{background:rgba(224,85,85,.15);color:#e07070}
+
+    @media(max-width:768px){
+
+      /* topbar: hide on mobile */
+      .topbar{display:none}
+
+      /* nav */
+      .nav{padding:0 1.2rem;height:60px}
+      .nav-logo img{height:38px}
+      .nav-links{display:none}
+      .hamburger{display:flex}
+
+      /* hero */
+      .hero{padding:3rem 1.2rem 3rem}
+      .hero-chip{font-size:.7rem;padding:.3rem .8rem;margin-bottom:1.2rem}
+      .hero-h1{font-size:2.1rem;margin-bottom:1rem}
+      .hero-p{font-size:.95rem;margin-bottom:2rem}
+      .hero-btns{flex-direction:column;gap:.75rem}
+      .btn-primary,.btn-outline{width:100%;padding:.85rem;text-align:center}
+
+      /* news */
+      .news-section{padding:3rem 1.2rem}
+      .news-grid{grid-template-columns:1fr;gap:1rem}
+
+      /* features */
+      .features-section{padding:3rem 1.2rem}
+      .feat-grid{grid-template-columns:1fr;gap:1rem;margin-top:2rem}
+      .feat-card{padding:1.3rem}
+
+      /* footer */
+      .footer{padding:2rem 1.2rem}
+
+      /* login */
+      .login-card{padding:1.8rem 1.4rem;border-radius:12px}
+
+      /* dashboard layout */
+      .sidebar{display:none!important}
+      .main{margin-left:0!important;padding:1.2rem 1rem 100px!important}
+      .pg-title{font-size:1.5rem}
+      .stat-row{grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.5rem}
+      .stat-row .stat-card:last-child{grid-column:1/-1}
+      .stat-val{font-size:1.6rem}
+      .cms-layout{grid-template-columns:1fr}
+      .modal-row{grid-template-columns:1fr}
+      .modal{padding:1.5rem;margin:1rem;border-radius:14px;max-height:90vh;overflow-y:auto}
+      .mobile-bottom-nav{display:block}
+      .mobile-dash-header{display:flex}
+      .dash-page.active{flex-direction:column}
+
+      /* schedule on mobile: horizontal scroll */
+      .sch-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+      .sch-grid{min-width:520px}
+      .sch-day-header{font-size:.7rem;padding:0 .3rem}
+      .slot-name{font-size:.72rem}
+      .slot-time{font-size:.62rem}
+      .slot-lvl{display:none}
+      .sch-hint{flex-wrap:wrap;gap:.4rem;font-size:.75rem}
+
+      /* tables on mobile */
+      .tbl thead{display:none}
+      .tbl tr{display:block;margin-bottom:1rem;border:1.5px solid var(--gray-100);border-radius:10px;padding:.75rem;background:var(--white)}
+      .tbl td{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid var(--gray-100);font-size:.85rem}
+      .tbl td:last-child{border-bottom:none}
+      .tbl td::before{content:attr(data-label);font-size:.7rem;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em}
+      .tbl tr:hover td{background:transparent}
+
+      /* student rows on mobile */
+      .stu-row{flex-direction:column;align-items:flex-start;gap:.7rem;padding:1rem 0}
+      .stu-row > div:last-child{align-self:flex-end}
+    }
+
+    @media(max-width:480px){
+      .stat-row{grid-template-columns:1fr}
+      .stat-row .stat-card:last-child{grid-column:auto}
+      .hero-h1{font-size:1.85rem}
+    }
   </style>
 </head>
 <body>
@@ -258,7 +370,16 @@
       <a class="nav-link" href="#">Kontakt</a>
       <button class="nav-btn" onclick="showPage('login')">Panel ucznia →</button>
     </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+  <div class="nav-drawer" id="nav-drawer">
+    <a class="nav-link" href="#">O mnie</a>
+    <a class="nav-link" href="#">Oferta</a>
+    <a class="nav-link" href="#">Kontakt</a>
+    <button class="nav-btn" onclick="showPage('login');closeMenu()">Panel ucznia →</button>
+  </div>
   <section class="hero">
     <div class="hero-dots"></div><div class="hero-glow"></div>
     <div class="hero-inner">
@@ -318,6 +439,15 @@
 
 <!-- ══ STUDENT ══ -->
 <div id="page-student" class="dash-page">
+  <!-- mobile header -->
+  <div class="mobile-dash-header">
+    <div style="display:flex;align-items:center;gap:.7rem">
+      <img src="https://i.imgur.com/kzR7iuL.jpeg" alt="LANGART"/>
+      <div class="mh-role">Panel Ucznia</div>
+    </div>
+    <div class="mh-logout" onclick="showPage('landing')">Wyloguj 🚪</div>
+  </div>
+  <!-- desktop sidebar -->
   <aside class="sidebar">
     <div class="sb-top">
       <img src="https://i.imgur.com/kzR7iuL.jpeg" alt="LANGART"/>
@@ -331,6 +461,14 @@
     </div>
     <div class="sb-footer"><div class="sb-logout" onclick="showPage('landing')">🚪 Wyloguj się</div></div>
   </aside>
+  <!-- mobile bottom nav -->
+  <div class="mobile-bottom-nav">
+    <div class="mbn-items">
+      <div class="mbn-item active" id="smbn-news" onclick="switchTabMobile('student','news',this,'smbn-news')"><span>📋</span><span>Aktualności</span></div>
+      <div class="mbn-item" id="smbn-payments" onclick="switchTabMobile('student','payments',this,'smbn-payments')"><span>💳</span><span>Płatności</span></div>
+      <div class="mbn-item" id="smbn-schedule" onclick="switchTabMobile('student','schedule',this,'smbn-schedule')"><span>📅</span><span>Harmonogram</span></div>
+    </div>
+  </div>
   <main class="main">
     <div id="student-tab-news" class="tab-panel active">
       <h1 class="pg-title">Cześć, Anno! 👋</h1>
@@ -346,7 +484,7 @@
       <h1 class="pg-title">Moje płatności</h1><p class="pg-sub">Historia opłat miesięcznych za korepetycje.</p>
       <div class="box"><div class="box-title">Historia opłat</div>
         <table class="tbl"><thead><tr><th>Miesiąc</th><th>Kwota</th><th>Status</th></tr></thead><tbody>
-          <tr><td>Październik 2025</td><td><strong>320 zł</strong></td><td><span class="badge b-paid">Opłacone</span></td></tr>
+          <tr><td data-label="Miesiąc">Październik 2025</td><td><strong>320 zł</strong></td><td><span class="badge b-paid">Opłacone</span></td></tr>
           <tr><td>Listopad 2025</td><td><strong>320 zł</strong></td><td><span class="badge b-paid">Opłacone</span></td></tr>
           <tr><td>Grudzień 2025</td><td><strong>320 zł</strong></td><td><span class="badge b-paid">Opłacone</span></td></tr>
           <tr><td>Styczeń 2026</td><td><strong>320 zł</strong></td><td><span class="badge b-paid">Opłacone</span></td></tr>
@@ -369,6 +507,15 @@
 
 <!-- ══ ADMIN ══ -->
 <div id="page-admin" class="dash-page">
+  <!-- mobile header -->
+  <div class="mobile-dash-header">
+    <div style="display:flex;align-items:center;gap:.7rem">
+      <img src="https://i.imgur.com/kzR7iuL.jpeg" alt="LANGART"/>
+      <div class="mh-role">Admin</div>
+    </div>
+    <div class="mh-logout" onclick="showPage('landing')">Wyloguj 🚪</div>
+  </div>
+  <!-- desktop sidebar -->
   <aside class="sidebar">
     <div class="sb-top">
       <img src="https://i.imgur.com/kzR7iuL.jpeg" alt="LANGART"/>
@@ -383,6 +530,15 @@
     </div>
     <div class="sb-footer"><div class="sb-logout" onclick="showPage('landing')">🚪 Wyloguj się</div></div>
   </aside>
+  <!-- mobile bottom nav -->
+  <div class="mobile-bottom-nav">
+    <div class="mbn-items">
+      <div class="mbn-item active" id="ambn-cms" onclick="switchTabMobile('admin','cms',this,'ambn-cms')"><span>✏️</span><span>Tablica</span></div>
+      <div class="mbn-item" id="ambn-students" onclick="switchTabMobile('admin','students',this,'ambn-students')"><span>👥</span><span>Uczniowie</span></div>
+      <div class="mbn-item" id="ambn-payments" onclick="switchTabMobile('admin','payments',this,'ambn-payments')"><span>💳</span><span>Płatności</span></div>
+      <div class="mbn-item" id="ambn-schedule" onclick="switchTabMobile('admin','schedule',this,'ambn-schedule')"><span>📅</span><span>Plan</span></div>
+    </div>
+  </div>
   <main class="main">
 
     <!-- CMS -->
