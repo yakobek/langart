@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LANGART – Korepetycje z języka angielskiego · Świnoujście</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue:#25ABE1; --blue-dark:#1a8bbf; --blue-deep:#0f5f85;
+      --blue-light:#5fc3ea; --blue-pale:#d6f0fa; --blue-ghost:#eef8fd;
+      --white:#ffffff; --gray-50:#f4f8fb; --gray-100:#e5eef4;
+      --gray-200:#c8d9e6; --gray-400:#8aa8bc; --gray-600:#4a6478;
+      --ink:#0d1e2b; --navy:#0a2540; --sky:#7dd8f5;
+      --green:#1eaa6e; --red:#e05555; --amber:#e09c25;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--gray-50);color:var(--ink)}
+
+    /* PAGES */
+    .page{display:none}.page.active{display:block}
+    .dash-page{display:none}.dash-page.active{display:flex;min-height:100vh}
+
+    /* TOPBAR */
+    .topbar{background:var(--navy);color:rgba(255,255,255,.55);font-size:.75rem;padding:.45rem 2.5rem;display:flex;justify-content:flex-end;gap:2rem}
+    .topbar span{display:flex;align-items:center;gap:.3rem}
+
+    /* NAV */
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:68px;background:var(--white);border-bottom:1px solid var(--gray-100);box-shadow:0 2px 16px rgba(37,171,225,.08);position:sticky;top:0;z-index:100}
+    .nav-logo{display:flex;align-items:center;cursor:pointer}
+    .nav-logo img{height:46px;width:auto;object-fit:contain}
+    .nav-links{display:flex;gap:2rem;align-items:center}
+    .nav-link{font-size:.88rem;color:var(--gray-600);cursor:pointer;transition:color .2s;font-weight:500;text-decoration:none}
+    .nav-link:hover{color:var(--blue)}
+    .nav-btn{background:var(--blue);color:var(--white);border:none;padding:.55rem 1.3rem;border-radius:8px;font-family:'Inter',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(37,171,225,.35)}
+    .nav-btn:hover{background:var(--blue-dark);transform:translateY(-1px)}
+
+    /* HERO */
+    .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--blue-deep) 55%,#1a6fa3 100%);padding:5rem 2.5rem 4rem;position:relative;overflow:hidden;display:flex;justify-content:center}
+    .hero-dots{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1.5px,transparent 1.5px);background-size:30px 30px;pointer-events:none}
+    .hero-glow{position:absolute;top:-100px;right:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(37,171,225,.3) 0%,transparent 65%);pointer-events:none}
+    .hero-inner{position:relative;max-width:760px;width:100%;text-align:center}
+    .hero-chip{display:inline-flex;align-items:center;gap:.5rem;background:rgba(37,171,225,.2);border:1px solid rgba(37,171,225,.4);border-radius:2rem;padding:.35rem 1rem;font-size:.78rem;color:var(--sky);font-weight:600;letter-spacing:.07em;text-transform:uppercase;margin-bottom:1.6rem}
+    .hero-chip::before{content:'';width:7px;height:7px;background:var(--blue-light);border-radius:50%;display:inline-block}
+    .hero-h1{font-family:'Nunito',sans-serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:900;line-height:1.1;color:var(--white);margin-bottom:1.4rem;letter-spacing:-.02em}
+    .hero-h1 span{color:var(--blue-light)}
+    .hero-p{font-size:1.05rem;color:rgba(255,255,255,.7);line-height:1.75;max-width:560px;margin:0 auto 2.5rem;font-weight:300}
+    .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+    .btn-primary{background:var(--blue);color:var(--white);border:none;padding:.85rem 1.8rem;border-radius:10px;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:0 4px 18px rgba(37,171,225,.45)}
+    .btn-primary:hover{background:var(--blue-light);transform:translateY(-2px)}
+    .btn-outline{background:rgba(255,255,255,.08);color:var(--white);border:1.5px solid rgba(255,255,255,.25);padding:.85rem 1.8rem;border-radius:10px;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:500;cursor:pointer;transition:all .2s}
+    .btn-outline:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.5)}
+
+    /* NEWS */
+    .news-section{background:var(--blue-ghost);padding:4.5rem 2.5rem;border-top:1px solid var(--blue-pale);border-bottom:1px solid var(--blue-pale)}
+    .news-inner{max-width:1100px;margin:0 auto}
+    .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;margin-top:2rem}
+    .news-card{background:var(--white);border:1.5px solid var(--blue-pale);border-radius:14px;padding:1.5rem;box-shadow:0 2px 12px rgba(37,171,225,.07);transition:all .2s}
+    .news-card:hover{border-color:var(--blue);box-shadow:0 6px 22px rgba(37,171,225,.14);transform:translateY(-2px)}
+    .news-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+    .news-card-title{font-size:.96rem;font-weight:700;color:var(--ink);margin-bottom:.45rem}
+    .news-card-body{font-size:.84rem;color:var(--gray-600);line-height:1.65;font-weight:300}
+
+    /* SECTION */
+    .sec-eyebrow{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);font-weight:700;margin-bottom:.6rem;display:flex;align-items:center;gap:.5rem}
+    .sec-eyebrow::before{content:'';width:20px;height:2.5px;background:var(--blue);border-radius:2px;display:inline-block}
+    .sec-h2{font-family:'Nunito',sans-serif;font-size:clamp(1.8rem,3vw,2.4rem);font-weight:900;color:var(--ink);letter-spacing:-.02em}
+    .sec-sub{font-size:.95rem;color:var(--gray-600);margin-top:.6rem;max-width:480px;line-height:1.7;font-weight:300}
+
+    /* FEATURES */
+    .features-section{padding:5rem 2.5rem;background:var(--white)}
+    .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+    .feat-card{background:var(--gray-50);border:1.5px solid var(--gray-100);border-radius:14px;padding:1.8rem;transition:all .25s}
+    .feat-card:hover{border-color:var(--blue);box-shadow:0 8px 28px rgba(37,171,225,.12);transform:translateY(-3px)}
+    .feat-icon{width:48px;height:48px;border-radius:12px;background:var(--blue-ghost);border:1px solid var(--blue-pale);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.2rem}
+    .feat-title{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.45rem}
+    .feat-desc{font-size:.85rem;color:var(--gray-600);line-height:1.65;font-weight:300}
+
+    /* TAGS & BADGES */
+    .ptag{font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.22rem .55rem;border-radius:5px}
+    .ptag-info{background:var(--blue-ghost);color:var(--blue-dark)}
+    .ptag-hw{background:rgba(14,196,176,.1);color:#0a9e90}
+    .ptag-alert{background:rgba(224,156,37,.1);color:#b07800}
+    .badge{display:inline-block;padding:.2rem .6rem;border-radius:5px;font-size:.7rem;font-weight:700;letter-spacing:.04em}
+    .b-paid{background:rgba(30,170,110,.1);color:var(--green)}
+    .b-pending{background:rgba(224,85,85,.1);color:var(--red)}
+    .b-soon{background:rgba(37,171,225,.1);color:var(--blue-dark)}
+    .pi-date{font-size:.75rem;color:var(--gray-400)}
+
+    /* FOOTER */
+    .footer{background:var(--navy);color:rgba(255,255,255,.35);text-align:center;padding:2.5rem;font-size:.8rem;font-weight:300}
+    .footer strong{color:var(--blue-light)}.footer a{color:var(--blue-light);text-decoration:none}
+
+    /* LOGIN */
+    .login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:3rem 1rem;background:linear-gradient(160deg,var(--blue-ghost) 0%,var(--gray-50) 60%)}
+    .login-card{width:100%;max-width:400px;background:var(--white);border:1px solid var(--gray-100);border-radius:16px;padding:2.5rem;box-shadow:0 12px 40px rgba(37,171,225,.12)}
+    .login-logo-row{text-align:center;margin-bottom:.8rem}
+    .login-logo-row img{height:64px;width:auto;object-fit:contain}
+    .login-sub{text-align:center;font-size:.82rem;color:var(--gray-400);margin-bottom:2rem;font-weight:300}
+    .fl{display:block;font-size:.78rem;color:var(--gray-600);margin-bottom:.4rem;font-weight:600;letter-spacing:.03em}
+    .fi{width:100%;padding:.75rem 1rem;margin-bottom:1.1rem;background:var(--gray-50);border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Inter',sans-serif;font-size:.95rem;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+    .fi:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,171,225,.15)}
+    .fi::placeholder{color:var(--gray-200)}
+    .login-btn{width:100%;padding:.85rem;background:var(--blue);color:var(--white);border:none;border-radius:10px;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(37,171,225,.35)}
+    .login-btn:hover{background:var(--blue-dark);transform:translateY(-1px)}
+    .login-forgot{text-align:center;margin-top:1rem;font-size:.8rem;color:var(--gray-400);cursor:pointer}
+    .login-forgot:hover{color:var(--blue)}
+    .login-back{text-align:center;margin-top:.7rem;font-size:.8rem;color:var(--gray-400);cursor:pointer}
+    .login-back:hover{color:var(--ink)}
+    .demo-hint{margin-top:1.5rem;padding:.9rem;background:var(--blue-ghost);border-radius:10px;border:1px solid var(--blue-pale)}
+    .demo-hint p{font-size:.78rem;color:var(--gray-600);text-align:center;line-height:1.65}
+    .demo-hint strong{color:var(--blue-dark);font-weight:700}
+
+    /* DASHBOARD */
+    .sidebar{width:235px;background:var(--navy);position:fixed;top:0;left:0;bottom:0;display:flex;flex-direction:column;border-right:1px solid rgba(37,171,225,.15);z-index:200}
+    .sb-top{padding:1.4rem 1rem 1rem;border-bottom:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;align-items:center;gap:.5rem}
+    .sb-top img{height:40px;width:auto;object-fit:contain;border-radius:6px}
+    .sb-brand-role{font-size:.7rem;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+    .sb-section{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.25);padding:1.2rem 1.4rem .4rem;font-weight:700}
+    .sb-nav{padding:0 .8rem;display:flex;flex-direction:column;gap:.15rem}
+    .sb-item{display:flex;align-items:center;gap:.7rem;padding:.65rem .8rem;border-radius:8px;font-size:.88rem;color:rgba(255,255,255,.5);cursor:pointer;transition:all .2s;font-weight:500}
+    .sb-item:hover{background:rgba(37,171,225,.12);color:rgba(255,255,255,.85)}
+    .sb-item.active{background:rgba(37,171,225,.2);color:var(--blue-light)}
+    .sb-footer{margin-top:auto;padding:1rem .8rem;border-top:1px solid rgba(255,255,255,.07)}
+    .sb-logout{display:flex;align-items:center;gap:.7rem;padding:.65rem .8rem;border-radius:8px;font-size:.85rem;color:rgba(255,255,255,.3);cursor:pointer;transition:all .2s}
+    .sb-logout:hover{background:rgba(224,85,85,.1);color:#e07070}
+    .main{margin-left:235px;padding:2.5rem;flex:1;background:var(--gray-50);min-height:100vh}
+    .pg-title{font-family:'Nunito',sans-serif;font-size:1.9rem;font-weight:900;color:var(--ink);letter-spacing:-.02em}
+    .pg-sub{font-size:.88rem;color:var(--gray-400);margin-top:.2rem;margin-bottom:2rem;font-weight:300}
+    .tab-panel{display:none}.tab-panel.active{display:block}
+
+    /* STAT CARDS */
+    .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2.5rem}
+    .stat-card{background:var(--white);border:1.5px solid var(--gray-100);border-radius:14px;padding:1.3rem 1.5rem;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+    .stat-card.hi{border-color:var(--blue-pale);background:linear-gradient(135deg,var(--white) 60%,var(--blue-ghost))}
+    .stat-lbl{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);font-weight:700;margin-bottom:.5rem}
+    .stat-val{font-family:'Nunito',sans-serif;font-size:2rem;font-weight:900;color:var(--ink)}
+    .stat-val.blue{color:var(--blue)}.stat-val.red{color:var(--red)}
+    .stat-note{font-size:.74rem;color:var(--gray-400);margin-top:.3rem}
+
+    /* BOX */
+    .box{background:var(--white);border:1.5px solid var(--gray-100);border-radius:14px;padding:1.5rem;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+    .box+.box{margin-top:1.2rem}
+    .box-title{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);font-weight:700;margin-bottom:1.2rem}
+
+    /* POSTS */
+    .post-item{padding:1.2rem 0;border-bottom:1px solid var(--gray-100)}
+    .post-item:last-child{border-bottom:none;padding-bottom:0}
+    .pi-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem}
+    .pi-title{font-size:.96rem;font-weight:700;color:var(--ink);margin-bottom:.35rem}
+    .pi-body{font-size:.86rem;color:var(--gray-600);line-height:1.65;font-weight:300}
+    .pi-del{font-size:.72rem;color:var(--gray-400);background:none;border:none;cursor:pointer;padding:.2rem .5rem;border-radius:4px;transition:all .2s;margin-left:.5rem}
+    .pi-del:hover{background:rgba(224,85,85,.1);color:var(--red)}
+
+    /* TABLE */
+    .tbl{width:100%;border-collapse:collapse}
+    .tbl th{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);padding:.65rem .8rem;text-align:left;border-bottom:2px solid var(--gray-100);font-weight:700}
+    .tbl td{padding:.9rem .8rem;font-size:.88rem;color:var(--ink);border-bottom:1px solid var(--gray-100)}
+    .tbl tr:last-child td{border-bottom:none}
+    .tbl tr:hover td{background:var(--gray-50)}
+
+    /* CMS FORM */
+    .cms-layout{display:grid;grid-template-columns:1fr 1.6fr;gap:1.5rem}
+    .form-group{margin-bottom:1rem}
+    .form-label{display:block;font-size:.78rem;color:var(--gray-600);margin-bottom:.4rem;font-weight:600}
+    .form-in{width:100%;padding:.7rem .9rem;background:var(--gray-50);border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Inter',sans-serif;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s}
+    .form-in:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,171,225,.1)}
+    .form-ta{min-height:100px;resize:vertical;line-height:1.6}
+    .submit-btn{width:100%;padding:.8rem;background:var(--blue);color:var(--white);border:none;border-radius:10px;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 3px 12px rgba(37,171,225,.3)}
+    .submit-btn:hover{background:var(--blue-dark)}
+
+    /* STUDENTS */
+    .stu-row{display:flex;justify-content:space-between;align-items:center;padding:.9rem 0;border-bottom:1px solid var(--gray-100)}
+    .stu-row:last-child{border-bottom:none}
+    .stu-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;background:var(--blue-ghost);border:2px solid var(--blue-pale);display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:var(--blue-dark)}
+    .stu-name{font-size:.9rem;font-weight:700;color:var(--ink)}
+    .stu-meta{font-size:.78rem;color:var(--gray-400);margin-top:.1rem}
+    .ab{padding:.28rem .65rem;border-radius:6px;font-size:.75rem;font-weight:700;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .2s}
+    .ab-e{background:var(--blue-ghost);color:var(--blue-dark)}.ab-e:hover{background:var(--blue-pale)}
+    .ab-d{background:rgba(100,100,100,.08);color:var(--gray-400)}.ab-d:hover{background:rgba(224,85,85,.1);color:var(--red)}
+
+    /* SCHEDULE GRID */
+    .sch-wrap{background:var(--white);border:1.5px solid var(--gray-100);border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04);margin-bottom:1.5rem;display:flex}
+    .sch-times{display:flex;flex-direction:column;background:var(--gray-50);border-right:1px solid var(--gray-100);min-width:58px;flex-shrink:0}
+    .sch-times-spacer{height:44px;border-bottom:1px solid var(--gray-100)}
+    .sch-hour{height:72px;display:flex;align-items:flex-start;justify-content:flex-end;padding:6px 10px 0 0;font-size:.7rem;color:var(--gray-400);font-weight:600;border-bottom:1px solid var(--gray-100);flex-shrink:0}
+    .sch-grid{display:grid;grid-template-columns:repeat(5,1fr);flex:1}
+    .sch-day{border-right:1px solid var(--gray-100)}.sch-day:last-child{border-right:none}
+    .sch-day-header{height:44px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;color:var(--blue-deep);background:var(--blue-ghost);border-bottom:1px solid var(--blue-pale);letter-spacing:.03em}
+    .sch-slots{display:flex;flex-direction:column}
+    .sch-slot{height:72px;border-bottom:1px solid var(--gray-100);position:relative;flex-shrink:0}
+    .sch-slot:last-child{border-bottom:none}
+    .sch-slot.empty{background:transparent;cursor:pointer;transition:background .15s}
+    .sch-slot.empty:hover{background:rgba(37,171,225,.06)}
+    .sch-slot.empty:hover::after{content:'＋';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:rgba(37,171,225,.35);pointer-events:none}
+    .sch-slot.filled{cursor:grab;transition:opacity .15s;padding:6px 8px}
+    .sch-slot.filled:hover{opacity:.85}
+    .sch-slot.filled.dragging{opacity:.4;cursor:grabbing}
+    .sch-slot.drag-over{background:rgba(37,171,225,.12)!important;border:2px dashed var(--blue)!important}
+    .slot-inner{height:100%;border-radius:6px;padding:6px 8px;border-left:3px solid var(--slot-color,#25ABE1);background:color-mix(in srgb,var(--slot-color,#25ABE1) 12%,white)}
+    .slot-name{font-size:.78rem;font-weight:700;color:var(--ink);line-height:1.2}
+    .slot-time{font-size:.68rem;color:var(--gray-600);margin-top:1px}
+    .slot-lvl{font-size:.65rem;color:var(--gray-400);margin-top:2px;font-weight:600;letter-spacing:.05em}
+    .sch-hint{font-size:.78rem;color:var(--gray-400);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+    .sch-hint span{background:var(--blue-ghost);border:1px solid var(--blue-pale);padding:.2rem .6rem;border-radius:5px;font-size:.72rem;font-weight:600;color:var(--blue-dark)}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(10,37,64,.55);z-index:1000;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .2s}
+    .modal-overlay.open{opacity:1;pointer-events:auto}
+    .modal{background:var(--white);border-radius:16px;padding:2rem;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.2);transform:translateY(16px);transition:transform .2s}
+    .modal-overlay.open .modal{transform:translateY(0)}
+    .modal-title{font-family:'Nunito',sans-serif;font-size:1.3rem;font-weight:900;color:var(--ink);margin-bottom:1.5rem}
+    .modal-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+    .modal-btns{display:flex;gap:.7rem;margin-top:1.5rem}
+    .modal-save{flex:1;padding:.75rem;background:var(--blue);color:var(--white);border:none;border-radius:10px;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+    .modal-save:hover{background:var(--blue-dark)}
+    .modal-del{padding:.75rem 1rem;background:rgba(224,85,85,.08);color:var(--red);border:1.5px solid rgba(224,85,85,.2);border-radius:10px;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s}
+    .modal-del:hover{background:rgba(224,85,85,.15)}
+    .modal-cancel{padding:.75rem 1rem;background:var(--gray-50);color:var(--gray-600);border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s}
+    .modal-cancel:hover{background:var(--gray-100)}
+    .color-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.3rem}
+    .color-dot{width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:transform .15s}
+    .color-dot:hover{transform:scale(1.15)}
+    .color-dot.selected{border-color:var(--ink)}
+
+    /* LEGEND */
+    .sch-legend{display:flex;gap:1.5rem;flex-wrap:wrap;padding:1rem 1.2rem;background:var(--white);border:1.5px solid var(--gray-100);border-radius:10px}
+    .sch-legend-item{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--gray-600);font-weight:500}
+    .sch-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+    /* TOAST */
+    #toast{position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--blue);color:var(--white);padding:.8rem 1.5rem;border-radius:10px;font-size:.88rem;font-weight:700;box-shadow:0 6px 20px rgba(37,171,225,.45);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;transform:translateY(12px)}
+    #toast.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+
+    .cms-posts-list-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-400);font-weight:700;margin-bottom:1rem}
+    .sched-row{display:flex;justify-content:space-between;align-items:center;padding:.9rem 0;border-bottom:1px solid var(--gray-100)}
+    .sched-row:last-child{border-bottom:none}
+  </style>
+</head>
+<body>
+
+<!-- ══ LANDING ══ -->
+<div id="page-landing" class="page active">
+  <div class="topbar">
+    <span>📍 Świnoujście</span>
+    <span>✉️ d.dendor@langart.pl</span>
+    <span>📞 +48 xxx xxx xxx</span>
+  </div>
+  <nav class="nav">
+    <div class="nav-logo" onclick="showPage('landing')">
+      <img src="https://i.imgur.com/kzR7iuL.jpeg" alt="LANGART" />
+    </div>
+    <div class="nav-links">
+      <a class="nav-link" href="#">O mnie</a>
+      <a class="nav-link" href="#">Oferta</a>
+      <a class="nav-link" href="#">Kontakt</a>
+      <button class="nav-btn" onclick="showPage('login')">Panel ucznia →</button>
+    </div>
+  </nav>
+  <section class="hero">
+    <div class="hero-dots"></div><div class="hero-glow"></div>
+    <div class="hero-inner">
+      <div class="hero-chip">Korepetycje z języka angielskiego</div>
+      <h1 class="hero-h1">Nauka angielskiego<br />w <span>Świnoujściu</span></h1>
+      <p class="hero-p">Indywidualne i grupowe korepetycje z doświadczonym lektorem. Małe grupy, sprawdzone metody, realne efekty — od A1 do C1.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('login')">Zaloguj się do panelu</button>
+        <button class="btn-outline">Skontaktuj się</button>
+      </div>
+    </div>
+  </section>
+  <section class="news-section">
+    <div class="news-inner">
+      <div class="sec-eyebrow">Aktualności</div>
+      <h2 class="sec-h2">Co słychać?</h2>
+      <p class="sec-sub">Najnowsze ogłoszenia i informacje od nauczyciela.</p>
+      <div class="news-grid" id="landing-news-grid"></div>
+    </div>
+  </section>
+  <section class="features-section">
+    <div class="sec-eyebrow">Panel ucznia</div>
+    <h2 class="sec-h2">Wszystko w jednym miejscu</h2>
+    <p class="sec-sub">Logując się do panelu masz dostęp do ogłoszeń, historii płatności i harmonogramu zajęć.</p>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-icon">📋</div><div class="feat-title">Tablica ogłoszeń</div><div class="feat-desc">Aktualności od nauczyciela, zadania domowe, zmiany terminów.</div></div>
+      <div class="feat-card"><div class="feat-icon">💳</div><div class="feat-title">Historia płatności</div><div class="feat-desc">Przejrzysty widok opłat miesięcznych ze statusami.</div></div>
+      <div class="feat-card"><div class="feat-icon">📅</div><div class="feat-title">Harmonogram zajęć</div><div class="feat-desc">Terminy grup i zajęć indywidualnych na każdy miesiąc.</div></div>
+      <div class="feat-card"><div class="feat-icon">📡</div><div class="feat-title">Zajęcia zdalne</div><div class="feat-desc">Możliwość uczestnictwa online po potwierdzeniu z nauczycielem.</div></div>
+      <div class="feat-card"><div class="feat-icon">🎓</div><div class="feat-title">Twój poziom</div><div class="feat-desc">Aktualny poziom zaawansowania i postępy w nauce.</div></div>
+      <div class="feat-card"><div class="feat-icon">🔐</div><div class="feat-title">Bezpieczny dostęp</div><div class="feat-desc">Chronione hasłem konto z Twoimi prywatnymi danymi.</div></div>
+    </div>
+  </section>
+  <footer class="footer">
+    <strong>LANGART</strong> · Dariusz Dendor · Świnoujście · <a href="mailto:d.dendor@langart.pl">d.dendor@langart.pl</a><br/>
+    <span style="font-size:.72rem;margin-top:.4rem;display:block">© 2026 · <a href="https://langart.swinoujscie.pl">langart.swinoujscie.pl</a></span>
+  </footer>
+</div>
+
+<!-- ══ LOGIN ══ -->
+<div id="page-login" class="page">
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-logo-row"><img src="https://i.imgur.com/kzR7iuL.jpeg" alt="LANGART"/></div>
+      <div class="login-sub">Korepetycje · Świnoujście</div>
+      <label class="fl">Login</label>
+      <input class="fi" id="login-email" type="email" placeholder="twoj@email.pl"/>
+      <label class="fl">Hasło</label>
+      <input class="fi" id="login-pass" type="password" placeholder="••••••••"/>
+      <button class="login-btn" onclick="doLogin()">Zaloguj się</button>
+      <div class="login-forgot">Zapomniałeś(aś) hasła?</div>
+      <div class="login-back" onclick="showPage('landing')">← Wróć do strony głównej</div>
+      <div class="demo-hint"><p>Demo: <strong>anna@langart.pl</strong> → panel ucznia<br/><strong>admin@langart.pl</strong> → panel nauczyciela</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STUDENT ══ -->
+<div id="page-student" class="dash-page">
+  <aside class="sidebar">
+    <div class="sb-top">
+      <img src="https://i.imgur.com/kzR7iuL.jpeg" alt="LANGART"/>
+      <div class="sb-brand-role">Panel Ucznia</div>
+    </div>
+    <div class="sb-section">Menu</div>
+    <div class="sb-nav">
+      <div class="sb-item active" onclick="switchTab('student','news',this)"><span>📋</span> Aktualności</div>
+      <div class="sb-item" onclick="switchTab('student','payments',this)"><span>💳</span> Płatności</div>
+      <div class="sb-item" onclick="switchTab('student','schedule',this)"><span>📅</span> Harmonogram</div>
+    </div>
+    <div class="sb-footer"><div class="sb-logout" onclick="showPage('landing')">🚪 Wyloguj się</div></div>
+  </aside>
+  <main class="main">
+    <div id="student-tab-news" class="tab-panel active">
+      <h1 class="pg-title">Cześć, Anno! 👋</h1>
+      <p class="pg-sub">Aktualności i informacje od Dariusza Dendora.</p>
+      <div class="stat-row">
+        <div class="stat-card hi"><div class="stat-lbl">Poziom</div><div class="stat-val blue">B2</div><div class="stat-note">Upper-Intermediate</div></div>
+        <div class="stat-card hi"><div class="stat-lbl">Do zapłaty</div><div class="stat-val red">320 zł</div><div class="stat-note">Termin: 10 lutego</div></div>
+        <div class="stat-card"><div class="stat-lbl">Następne zajęcia</div><div class="stat-val" style="font-size:1.2rem">Śr. 16:30</div><div class="stat-note">28 maja 2026</div></div>
+      </div>
+      <div class="box"><div class="box-title">Ogłoszenia — Dariusz Dendor</div><div id="student-news-list"></div></div>
+    </div>
+    <div id="student-tab-payments" class="tab-panel">
+      <h1 class="pg-title">Moje płatności</h1><p class="pg-sub">Historia opłat miesięcznych za korepetycje.</p>
+      <div class="box"><div class="box-title">Historia opłat</div>
+        <table class="tbl"><thead><tr><th>Miesiąc</th><th>Kwota</th><th>Status</th></tr></thead><tbody>
+          <tr><td>Październik 2025</td><td><strong>320 zł</strong></td><td><span class="badge b-paid">Opłacone</span></td></tr>
+          <tr><td>Listopad 2025</td><td><strong>320 zł</strong></td><td><span class="badge b-paid">Opłacone</span></td></tr>
+          <tr><td>Grudzień 2025</td><td><strong>320 zł</strong></td><td><span class="badge b-paid">Opłacone</span></td></tr>
+          <tr><td>Styczeń 2026</td><td><strong>320 zł</strong></td><td><span class="badge b-paid">Opłacone</span></td></tr>
+          <tr><td>Luty 2026</td><td><strong>320 zł</strong></td><td><span class="badge b-pending">Do zapłaty</span></td></tr>
+          <tr><td>Marzec 2026</td><td><strong>320 zł</strong></td><td><span class="badge b-soon">Nadchodzi</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+    <div id="student-tab-schedule" class="tab-panel">
+      <h1 class="pg-title">Harmonogram</h1><p class="pg-sub">Twoje zajęcia — Grupa A, środy 16:30.</p>
+      <div class="box"><div class="box-title">Maj / Czerwiec 2026</div>
+        <div class="sched-row"><span style="font-size:.9rem;font-weight:500">28 maja (śr.) 16:30 – 18:00</span><span class="badge b-soon">Zaplanowane</span></div>
+        <div class="sched-row"><span style="font-size:.9rem;font-weight:500">4 czerwca (śr.) 16:30 – 18:00</span><span class="badge b-soon">Zaplanowane</span></div>
+        <div class="sched-row"><span style="font-size:.9rem;font-weight:500">11 czerwca (śr.) 16:30 – 18:00</span><span class="badge b-soon">Zaplanowane</span></div>
+        <div class="sched-row"><span style="font-size:.9rem;font-weight:500">18 czerwca (śr.) 16:30 – 18:00</span><span class="badge b-soon">Zaplanowane</span></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ══ ADMIN ══ -->
+<div id="page-admin" class="dash-page">
+  <aside class="sidebar">
+    <div class="sb-top">
+      <img src="https://i.imgur.com/kzR7iuL.jpeg" alt="LANGART"/>
+      <div class="sb-brand-role">Admin</div>
+    </div>
+    <div class="sb-section">Zarządzanie</div>
+    <div class="sb-nav">
+      <div class="sb-item active" onclick="switchTab('admin','cms',this)"><span>✏️</span> Tablica / CMS</div>
+      <div class="sb-item" onclick="switchTab('admin','students',this)"><span>👥</span> Uczniowie</div>
+      <div class="sb-item" onclick="switchTab('admin','payments',this)"><span>💳</span> Płatności</div>
+      <div class="sb-item" onclick="switchTab('admin','schedule',this)"><span>📅</span> Plan zajęć</div>
+    </div>
+    <div class="sb-footer"><div class="sb-logout" onclick="showPage('landing')">🚪 Wyloguj się</div></div>
+  </aside>
+  <main class="main">
+
+    <!-- CMS -->
+    <div id="admin-tab-cms" class="tab-panel active">
+      <h1 class="pg-title">Tablica ogłoszeń</h1><p class="pg-sub">Dodawaj wpisy widoczne dla wszystkich uczniów.</p>
+      <div class="cms-layout">
+        <div class="box">
+          <div class="box-title">Nowy wpis</div>
+          <div class="form-group"><label class="form-label">Kategoria</label>
+            <select class="form-in" id="cms-tag">
+              <option value="info">📢 Info / Ogłoszenie</option>
+              <option value="hw">📚 Praca domowa</option>
+              <option value="alert">⚠️ Opłata / Alert</option>
+            </select></div>
+          <div class="form-group"><label class="form-label">Tytuł</label><input class="form-in" id="cms-title" placeholder="np. Zajęcia – 28.05.2026"/></div>
+          <div class="form-group"><label class="form-label">Treść</label><textarea class="form-in form-ta" id="cms-body" placeholder="Treść ogłoszenia..."></textarea></div>
+          <button class="submit-btn" onclick="publishPost()">Opublikuj →</button>
+        </div>
+        <div>
+          <div class="cms-posts-list-label" id="cms-posts-count">Opublikowane (3)</div>
+          <div id="cms-posts-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UCZNIOWIE -->
+    <div id="admin-tab-students" class="tab-panel">
+      <h1 class="pg-title">Uczniowie</h1><p class="pg-sub">Lista zarejestrowanych kont.</p>
+      <div class="box"><div class="box-title">Wszystkie konta</div>
+        <div class="stu-row"><div style="display:flex;align-items:center;gap:.9rem"><div class="stu-av">AK</div><div><div class="stu-name">Anna Kowalska</div><div class="stu-meta">Gr. A – śr. 16:30 · B2</div></div></div><div style="display:flex;align-items:center;gap:1rem"><span style="font-size:.9rem;font-weight:700;color:var(--red)">320 zł</span><button class="ab ab-e">Edytuj</button><button class="ab ab-d">Usuń</button></div></div>
+        <div class="stu-row"><div style="display:flex;align-items:center;gap:.9rem"><div class="stu-av">ML</div><div><div class="stu-name">Marek Lewandowski</div><div class="stu-meta">Gr. B – pt. 17:00 · B1</div></div></div><div style="display:flex;align-items:center;gap:1rem"><span style="font-size:.9rem;font-weight:700;color:var(--green)">0 zł</span><button class="ab ab-e">Edytuj</button><button class="ab ab-d">Usuń</button></div></div>
+        <div class="stu-row"><div style="display:flex;align-items:center;gap:.9rem"><div class="stu-av">ZW</div><div><div class="stu-name">Zofia Wiśniewska</div><div class="stu-meta">Gr. A – śr. 16:30 · C1</div></div></div><div style="display:flex;align-items:center;gap:1rem"><span style="font-size:.9rem;font-weight:700;color:var(--green)">0 zł</span><button class="ab ab-e">Edytuj</button><button class="ab ab-d">Usuń</button></div></div>
+        <div class="stu-row"><div style="display:flex;align-items:center;gap:.9rem"><div class="stu-av">TB</div><div><div class="stu-name">Tomasz Bąk</div><div class="stu-meta">Indyw. – wt. 15:00 · A2</div></div></div><div style="display:flex;align-items:center;gap:1rem"><span style="font-size:.9rem;font-weight:700;color:var(--red)">640 zł</span><button class="ab ab-e">Edytuj</button><button class="ab ab-d">Usuń</button></div></div>
+        <div class="stu-row"><div style="display:flex;align-items:center;gap:.9rem"><div class="stu-av">KD</div><div><div class="stu-name">Karolina Dąbrowska</div><div class="stu-meta">Gr. B – pt. 17:00 · B2</div></div></div><div style="display:flex;align-items:center;gap:1rem"><span style="font-size:.9rem;font-weight:700;color:var(--red)">320 zł</span><button class="ab ab-e">Edytuj</button><button class="ab ab-d">Usuń</button></div></div>
+      </div>
+    </div>
+
+    <!-- PŁATNOŚCI -->
+    <div id="admin-tab-payments" class="tab-panel">
+      <h1 class="pg-title">Płatności uczniów</h1><p class="pg-sub">Zarządzaj statusami opłat miesięcznych.</p>
+      <div class="box"><div class="box-title">Maj 2026 — status opłat</div>
+        <table class="tbl"><thead><tr><th>Uczeń</th><th>Grupa</th><th>Kwota</th><th>Status</th><th>Akcja</th></tr></thead><tbody>
+          <tr><td><strong>Anna Kowalska</strong></td><td style="color:var(--gray-400)">Gr. A – śr. 16:30</td><td>320 zł</td><td><span class="badge b-pending">Do zapłaty</span></td><td><button class="ab ab-e">Zmień</button></td></tr>
+          <tr><td><strong>Marek Lewandowski</strong></td><td style="color:var(--gray-400)">Gr. B – pt. 17:00</td><td>320 zł</td><td><span class="badge b-paid">Opłacone</span></td><td><button class="ab ab-e">Zmień</button></td></tr>
+          <tr><td><strong>Zofia Wiśniewska</strong></td><td style="color:var(--gray-400)">Gr. A – śr. 16:30</td><td>320 zł</td><td><span class="badge b-paid">Opłacone</span></td><td><button class="ab ab-e">Zmień</button></td></tr>
+          <tr><td><strong>Tomasz Bąk</strong></td><td style="color:var(--gray-400)">Indyw. – wt. 15:00</td><td>320 zł</td><td><span class="badge b-pending">Do zapłaty</span></td><td><button class="ab ab-e">Zmień</button></td></tr>
+          <tr><td><strong>Karolina Dąbrowska</strong></td><td style="color:var(--gray-400)">Gr. B – pt. 17:00</td><td>320 zł</td><td><span class="badge b-pending">Do zapłaty</span></td><td><button class="ab ab-e">Zmień</button></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+
+    <!-- PLAN ZAJĘĆ -->
+    <div id="admin-tab-schedule" class="tab-panel">
+      <h1 class="pg-title">Plan zajęć</h1>
+      <p class="pg-sub">Kliknij wolny slot aby dodać grupę · Kliknij zajęcia aby edytować · Przeciągnij aby przesunąć</p>
+      <div class="sch-hint">
+        <span>+ klik</span> dodaj &nbsp;
+        <span>✎ klik</span> edytuj &nbsp;
+        <span>⠿ drag</span> przesuń
+      </div>
+      <div class="sch-wrap">
+        <div class="sch-times">
+          <div class="sch-times-spacer"></div>
+          <div class="sch-hour">14:00</div><div class="sch-hour">15:00</div>
+          <div class="sch-hour">16:00</div><div class="sch-hour">17:00</div>
+          <div class="sch-hour">18:00</div><div class="sch-hour">19:00</div>
+          <div class="sch-hour">20:00</div>
+        </div>
+        <div class="sch-grid" id="sch-grid"></div>
+      </div>
+      <div class="sch-legend" id="sch-legend"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">Nowe zajęcia</div>
+    <input type="hidden" id="modal-edit-id"/>
+    <div class="modal-row">
+      <div class="form-group">
+        <label class="form-label">Dzień</label>
+        <select class="form-in" id="modal-day">
+          <option value="0">Poniedziałek</option>
+          <option value="1">Wtorek</option>
+          <option value="2">Środa</option>
+          <option value="3">Czwartek</option>
+          <option value="4">Piątek</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Godzina rozpoczęcia</label>
+        <select class="form-in" id="modal-hour">
+          <option value="14">14:00</option><option value="15">15:00</option>
+          <option value="16">16:00</option><option value="17">17:00</option>
+          <option value="18">18:00</option><option value="19">19:00</option>
+          <option value="20">20:00</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-row">
+      <div class="form-group">
+        <label class="form-label">Nazwa grupy</label>
+        <input class="form-in" id="modal-name" placeholder="np. Gr. A"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Poziom</label>
+        <input class="form-in" id="modal-level" placeholder="np. B2"/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Kolor</label>
+      <div class="color-row" id="color-row"></div>
+    </div>
+    <div class="modal-btns">
+      <button class="modal-save" onclick="saveSlot()">Zapisz</button>
+      <button class="modal-del" id="modal-del-btn" onclick="deleteSlot()" style="display:none">Usuń</button>
+      <button class="modal-cancel" onclick="closeModal()">Anuluj</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast">✓ Zapisano!</div>
+
+<script>
+/* ── POSTS ── */
+const POSTS = [
+  {id:1,tag:'info', label:'Info',   date:'26.01.2026',title:'Zajęcia – 26.01.2026',           body:'Z uwagi na wyjątkowo trudne warunki atmosferyczne, w dzisiejszych zajęciach można uczestniczyć zdalnie. Proszę tylko o wcześniejsze potwierdzenie.'},
+  {id:2,tag:'hw',   label:'Zadanie',date:'20.01.2026',title:'Praca domowa – Present Perfect', body:'Ćwiczenia 4–7 ze strony 88 podręcznika. Proszę przynieść na najbliższe zajęcia.'},
+  {id:3,tag:'alert',label:'Opłata',date:'02.01.2026',title:'Przypomnienie – opłata za styczeń',body:'Proszę o uregulowanie opłaty do 10. dnia miesiąca. Kontakt: d.dendor@langart.pl'},
+];
+const TAG_CSS = {info:'ptag-info',hw:'ptag-hw',alert:'ptag-alert'};
+
+/* ── SCHEDULE DATA ── */
+// { id, day(0-4), hour(14-20), name, level, color }
+let SCHEDULE = [
+  {id:1, day:0, hour:16, name:'Gr. C', level:'A2',  color:'#25ABE1'},
+  {id:2, day:0, hour:17, name:'Gr. D', level:'B1',  color:'#0ec4b0'},
+  {id:3, day:1, hour:15, name:'Tomasz B.', level:'A2 · Indyw.', color:'#e09c25'},
+  {id:4, day:2, hour:16, name:'Gr. A', level:'B2',  color:'#25ABE1'},
+  {id:5, day:3, hour:16, name:'Gr. E', level:'C1',  color:'#5fc3ea'},
+  {id:6, day:3, hour:17, name:'Gr. F', level:'B2',  color:'#0f5f85'},
+  {id:7, day:4, hour:17, name:'Gr. B', level:'B1',  color:'#0ec4b0'},
+  {id:8, day:4, hour:18, name:'Gr. G', level:'A1',  color:'#25ABE1'},
+];
+
+const COLORS = ['#25ABE1','#0ec4b0','#5fc3ea','#0f5f85','#e09c25','#e05555','#7b61ff','#1eaa6e'];
+const DAYS   = ['Poniedziałek','Wtorek','Środa','Czwartek','Piątek'];
+const HOURS  = [14,15,16,17,18,19,20];
+
+/* ── PAGE ROUTING ── */
+function showPage(name){
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.dash-page').forEach(e=>e.classList.remove('active'));
+  const el = document.getElementById('page-'+name);
+  if(el) el.classList.add('active');
+  window.scrollTo(0,0);
+}
+function doLogin(){
+  const email = document.getElementById('login-email').value.trim();
+  showPage(email==='admin@langart.pl'?'admin':'student');
+}
+document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin()});
+
+function switchTab(page,tab,el){
+  document.querySelectorAll('#page-'+page+' .tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(page+'-tab-'+tab).classList.add('active');
+  el.closest('.sb-nav').querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ── POSTS RENDER ── */
+function renderPost(p,del){
+  return `<div class="post-item" id="post-${p.id}">
+    <div class="pi-top">
+      <span class="ptag ${TAG_CSS[p.tag]}">${p.label}</span>
+      <span style="display:flex;align-items:center"><span class="pi-date">${p.date}</span>${del?`<button class="pi-del" onclick="deletePost(${p.id})">✕ Usuń</button>`:''}</span>
+    </div>
+    <div class="pi-title">${p.title}</div><div class="pi-body">${p.body}</div>
+  </div>`;
+}
+function renderAll(){
+  document.getElementById('landing-news-grid').innerHTML = POSTS.map(p=>`
+    <div class="news-card">
+      <div class="news-card-top"><span class="ptag ${TAG_CSS[p.tag]}">${p.label}</span><span class="pi-date">${p.date}</span></div>
+      <div class="news-card-title">${p.title}</div><div class="news-card-body">${p.body}</div>
+    </div>`).join('');
+  document.getElementById('student-news-list').innerHTML = POSTS.map(p=>renderPost(p,false)).join('');
+  document.getElementById('cms-posts-list').innerHTML = POSTS.map(p=>`
+    <div class="box" style="margin-bottom:1rem;padding:1.1rem" id="cms-post-${p.id}">
+      <div class="pi-top" style="margin-bottom:.45rem">
+        <span class="ptag ${TAG_CSS[p.tag]}">${p.label}</span>
+        <span style="display:flex;align-items:center"><span class="pi-date">${p.date}</span><button class="pi-del" onclick="deletePost(${p.id})">✕ Usuń</button></span>
+      </div>
+      <div class="pi-title">${p.title}</div><div class="pi-body">${p.body}</div>
+    </div>`).join('');
+  document.getElementById('cms-posts-count').textContent=`Opublikowane (${POSTS.length})`;
+}
+function publishPost(){
+  const tag=document.getElementById('cms-tag').value;
+  const title=document.getElementById('cms-title').value.trim();
+  const body=document.getElementById('cms-body').value.trim();
+  if(!title||!body)return;
+  const labels={info:'Info',hw:'Zadanie',alert:'Opłata'};
+  POSTS.unshift({id:Date.now(),tag,label:labels[tag],date:new Date().toLocaleDateString('pl-PL'),title,body});
+  document.getElementById('cms-title').value='';document.getElementById('cms-body').value='';
+  renderAll();showToast('✓ Post opublikowany!');
+}
+function deletePost(id){
+  const i=POSTS.findIndex(p=>p.id===id);if(i!==-1)POSTS.splice(i,1);renderAll();
+}
+
+/* ── TOAST ── */
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg||'✓ Zapisano!';t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+/* ══════════════════════════════════════════
+   SCHEDULE ENGINE
+══════════════════════════════════════════ */
+let dragSrc = null; // {id}
+
+function renderSchedule(){
+  const grid = document.getElementById('sch-grid');
+  grid.innerHTML = '';
+  DAYS.forEach((dayName, dayIdx)=>{
+    const col = document.createElement('div');
+    col.className = 'sch-day';
+    col.innerHTML = `<div class="sch-day-header">${dayName}</div><div class="sch-slots" id="slots-${dayIdx}"></div>`;
+    grid.appendChild(col);
+  });
+  HOURS.forEach(hour=>{
+    DAYS.forEach((_,dayIdx)=>{
+      const entry = SCHEDULE.find(s=>s.day===dayIdx && s.hour===hour);
+      const slot  = document.createElement('div');
+      const slots = document.getElementById(`slots-${dayIdx}`);
+      if(entry){
+        slot.className = 'sch-slot filled';
+        slot.draggable = true;
+        slot.dataset.id = entry.id;
+        slot.style.setProperty('--slot-color', entry.color);
+        slot.innerHTML = `<div class="slot-inner" style="--slot-color:${entry.color}">
+          <div class="slot-name">${entry.name}</div>
+          <div class="slot-time">${hour}:00 – ${hour+1}:00</div>
+          <div class="slot-lvl">${entry.level}</div>
+        </div>`;
+        // click → edit
+        slot.addEventListener('click',()=>openModal('edit',entry.id,dayIdx,hour));
+        // drag
+        slot.addEventListener('dragstart',e=>{
+          dragSrc={id:entry.id};
+          slot.classList.add('dragging');
+          e.dataTransfer.effectAllowed='move';
+        });
+        slot.addEventListener('dragend',()=>slot.classList.remove('dragging'));
+      } else {
+        slot.className = 'sch-slot empty';
+        slot.dataset.day  = dayIdx;
+        slot.dataset.hour = hour;
+        slot.addEventListener('click',()=>openModal('add',null,dayIdx,hour));
+        slot.addEventListener('dragover',e=>{e.preventDefault();slot.classList.add('drag-over')});
+        slot.addEventListener('dragleave',()=>slot.classList.remove('drag-over'));
+        slot.addEventListener('drop',e=>{
+          e.preventDefault();slot.classList.remove('drag-over');
+          if(!dragSrc)return;
+          const tDay=parseInt(slot.dataset.day);
+          const tHour=parseInt(slot.dataset.hour);
+          const conflict=SCHEDULE.find(s=>s.day===tDay&&s.hour===tHour);
+          if(conflict)return;
+          const s=SCHEDULE.find(s=>s.id===dragSrc.id);
+          if(s){s.day=tDay;s.hour=tHour;}
+          dragSrc=null;renderSchedule();showToast('✓ Przesunięto zajęcia!');
+        });
+      }
+      slots.appendChild(slot);
+    });
+  });
+  renderLegend();
+}
+
+function renderLegend(){
+  const seen={};
+  SCHEDULE.forEach(s=>{if(!seen[s.color])seen[s.color]=[];seen[s.color].push(s.name)});
+  document.getElementById('sch-legend').innerHTML = Object.entries(seen).map(([color,names])=>
+    `<div class="sch-legend-item"><span class="sch-dot" style="background:${color}"></span>${names.join(', ')}</div>`
+  ).join('');
+}
+
+/* ── MODAL ── */
+function openModal(mode, id, day, hour){
+  document.getElementById('modal-overlay').classList.add('open');
+  document.getElementById('modal-day').value  = day;
+  document.getElementById('modal-hour').value = hour;
+
+  // build color picker
+  const cr = document.getElementById('color-row');
+  cr.innerHTML = COLORS.map(c=>
+    `<div class="color-dot" style="background:${c}" data-color="${c}" onclick="selectColor('${c}')"></div>`
+  ).join('');
+
+  if(mode==='add'){
+    document.getElementById('modal-title').textContent='Nowe zajęcia';
+    document.getElementById('modal-edit-id').value='';
+    document.getElementById('modal-name').value='';
+    document.getElementById('modal-level').value='';
+    document.getElementById('modal-del-btn').style.display='none';
+    selectColor(COLORS[0]);
+  } else {
+    const entry = SCHEDULE.find(s=>s.id===id);
+    document.getElementById('modal-title').textContent='Edytuj zajęcia';
+    document.getElementById('modal-edit-id').value=id;
+    document.getElementById('modal-name').value=entry.name;
+    document.getElementById('modal-level').value=entry.level;
+    document.getElementById('modal-del-btn').style.display='';
+    selectColor(entry.color);
+  }
+}
+function selectColor(c){
+  document.querySelectorAll('.color-dot').forEach(d=>{
+    d.classList.toggle('selected', d.dataset.color===c);
+  });
+}
+function getSelectedColor(){
+  const sel=document.querySelector('.color-dot.selected');
+  return sel?sel.dataset.color:COLORS[0];
+}
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+document.getElementById('modal-overlay').addEventListener('click',function(e){
+  if(e.target===this)closeModal();
+});
+
+function saveSlot(){
+  const editId = document.getElementById('modal-edit-id').value;
+  const day    = parseInt(document.getElementById('modal-day').value);
+  const hour   = parseInt(document.getElementById('modal-hour').value);
+  const name   = document.getElementById('modal-name').value.trim();
+  const level  = document.getElementById('modal-level').value.trim();
+  const color  = getSelectedColor();
+  if(!name) return;
+
+  if(editId){
+    // update
+    const s=SCHEDULE.find(s=>s.id===parseInt(editId));
+    if(s){
+      // check conflict (ignore self)
+      const conflict=SCHEDULE.find(s=>s.day===day&&s.hour===hour&&s.id!==parseInt(editId));
+      if(conflict){alert('Ten slot jest już zajęty!');return;}
+      Object.assign(s,{day,hour,name,level,color});
+    }
+  } else {
+    const conflict=SCHEDULE.find(s=>s.day===day&&s.hour===hour);
+    if(conflict){alert('Ten slot jest już zajęty!');return;}
+    SCHEDULE.push({id:Date.now(),day,hour,name,level,color});
+  }
+  closeModal();renderSchedule();showToast('✓ Zapisano plan zajęć!');
+}
+
+function deleteSlot(){
+  const editId=parseInt(document.getElementById('modal-edit-id').value);
+  SCHEDULE=SCHEDULE.filter(s=>s.id!==editId);
+  closeModal();renderSchedule();showToast('✓ Usunięto zajęcia.');
+}
+
+/* ── INIT ── */
+renderAll();
+renderSchedule();
+</script>
+</body>
+</html>
